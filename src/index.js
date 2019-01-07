@@ -76,12 +76,16 @@ module.exports = function (_ref) {
 			});
 			this.defines = defines;
 			// the "Ti" global object that should hold an object populated with any static values we're aware of
-			const Ti = config.Ti || {};
+			const Ti = config.Ti || config.Titanium || {};
 
 			// here we keep two views of the static values:
 
 			// - an object holding the fully prefixed property names with their values
 			this.flattened = flatten({ Ti });
+			// duplicate Ti.* to Titanium.*
+			Object.keys(this.flattened).forEach(key => {
+				this.flattened[key.replace('Ti.', 'Titanium.')] = this.flattened[key];
+			});
 
 			// - a Map from the base property names to the full prefixes they can come from:
 			// i.e. 'version' => [ 'Ti.App', 'Ti.Platform' ], 'osname' => [ 'Ti.Platform' ]
