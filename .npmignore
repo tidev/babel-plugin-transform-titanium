@@ -1,0 +1,8 @@
+.gitignore
+.eslintrc
+.editorconfig
+tests/
+coverage/
+.nyc_output/
+junit_report.xml
+node_modules/

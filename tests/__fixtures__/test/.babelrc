@@ -1,0 +1,7 @@
+{
+    "overrides": [{
+        "plugins": [
+            [ "/Users/cwilliams/repos/babel-plugin-transform-titanium/src/index.js", { "deploytype": "test", "target": "whatever", "platform": "android" } ]
+        ]
+    }]
+}

@@ -1,0 +1,5 @@
+.nyc_output/
+coverage/
+junit_report.xml
+
+node_modules/
