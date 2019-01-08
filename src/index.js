@@ -18,14 +18,6 @@ const CONST = require('./constants');
 // Ti.App.Properties (from tiapp.xml)?
 // Maybe just build up our own "Ti" object, filled in with whatever static values we have and then do simple replacement of those values below?
 
-// TODO: Can we do some slightly more complicated logic to handle common case of sniffing ios/windows?
-// Basically, most people check Ti.Platform.name/osname for a value in some set of constants, like:
-// if (Ti.Platform.name === 'iphone' || Ti.Platform.name === 'ipad')
-// if (Ti.Platform.osname === 'iOS' || Ti.Platform.osname === 'iPhone OS')
-// or for windows:
-// if (Ti.Platform.osname === 'windowsphone' || Ti.Platform.osname === 'windowsstore')
-// we should be able to flatten that to be true/false fairly easily (convert to Ti.Platform.name === 'windows' first which is a straight replace?)
-
 // The rest here is ripped straight from Alloy!
 
 // Walk tree transformer changing (Ti|Titanium).Platform.(osname|name)
@@ -51,6 +43,47 @@ function flatten(obj, opt_out, opt_paths) {
 		paths.pop();
 		return out;
 	}, out);
+}
+
+/**
+ * Returns false if invalid/no match. Returns the string literal value if matches conditions
+ * @param {object} types @babel/types object
+ * @param {object} path The @babel/core AST path object for a node
+ * @param {string[]} patterns array of member expressions to try and match for one side of equality check (i.e. 'Ti.Platform.osname')
+ * @returns {string|false}
+ */
+function getValueCheckedFor(types, path, patterns) {
+	if (!path.isBinaryExpression()) {
+		return false;
+	}
+	if (path.node.operator !== '==' && path.node.operator !== '===') {
+		return false;
+	}
+
+	let literal;
+	let member;
+	const left = path.get('left');
+	const right = path.get('right');
+	if (left.isStringLiteral()) {
+		literal = left.node.value;
+		member = right;
+	} else if (right.isStringLiteral()) {
+		literal = right.node.value;
+		member = left;
+	} else {
+		return false;
+	}
+
+	// make sure we have MemberExpression matching pattern!
+	if (!member.isMemberExpression()) {
+		return false;
+	}
+
+	const match = patterns.find(pattern => types.matchesPattern(member.node, pattern));
+	if (match) {
+		return literal;
+	}
+	return false;
 }
 
 module.exports = function (_ref) {
@@ -116,6 +149,7 @@ module.exports = function (_ref) {
 
 				// there is a base property name match, so now do deeper check to see if the full namespace matches
 				const prefixes = this.properties.get(name);
+				// FIXME May make sense to roll our own code here to build up the full name otherwise matchesPattern has to each time it tests
 				const match = prefixes.find(prefix => types.matchesPattern(path.node, `${prefix}.${name}`));
 
 				if (match) {
@@ -129,6 +163,31 @@ module.exports = function (_ref) {
 					&& (path.parent.type !== 'VariableDeclarator' || path.node.name !== path.parent.id.name)) {
 					path.replaceWith(types.booleanLiteral(this.defines[path.node.name]));
 				}
+			},
+			// Simplify more complex logical OR with equality check platform sniffing to a true/false
+			LogicalExpression: function (path) {
+				if (path.node.operator !== '||') {
+					return;
+				}
+
+				// If user is doing a Ti.Platform.osname check for 'ipad' or 'iphone', replace it with value of OS_IOS
+				const left = path.get('left');
+				const right = path.get('right');
+				const leftValue = getValueCheckedFor(types, left, [ 'Ti.Platform.osname', 'Titanium.Platform.osname' ]);
+				const rightValue = getValueCheckedFor(types, right, [ 'Ti.Platform.osname', 'Titanium.Platform.osname' ]);
+
+				if (leftValue && rightValue && leftValue !== rightValue) {
+
+					// FIXME: Is there a more generic way we can assign a set of possible values for a property and have it do this?
+					const ios = [ 'ipad', 'iphone' ];
+					const windows = [ 'windowsstore', 'windowsphone' ];
+					if (ios.includes(rightValue) && ios.includes(leftValue)) {
+						path.replaceWith(types.booleanLiteral(this.defines['OS_IOS']));
+					} else if (windows.includes(rightValue) && windows.includes(leftValue)) {
+						path.replaceWith(types.booleanLiteral(this.defines['OS_WINDOWS']));
+					}
+				}
+				// TODO: Do same for Ti.Platform.name for iOS (['iOS', 'iPhone OS'])?
 			}
 		}
 	};
