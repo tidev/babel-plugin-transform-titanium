@@ -46,12 +46,19 @@ tests['ipad'] = makeTest('ipad', {
 		}
 	}
 });
-tests['windowsstore'] = makeTest('windowsstore', {
-	platform: 'windows',
+tests['simplifies ios Ti.Platform.osname checks when ipad'] = makeTest('ios sniff - ipad', {
+	platform: 'ios',
 	Ti: {
 		Platform: {
-			name: 'windows',
-			osname: 'windowsstore'
+			name: 'iPhone OS'
+		}
+	}
+});
+tests['simplifies ios Ti.Platform.osname checks when iphone'] = makeTest('ios sniff - iphone', {
+	platform: 'ios',
+	Ti: {
+		Platform: {
+			name: 'iOS'
 		}
 	}
 });
@@ -61,6 +68,33 @@ tests['windowsphone'] = makeTest('windowsphone', {
 		Platform: {
 			name: 'windows',
 			osname: 'windowsphone'
+		}
+	}
+});
+tests['windowsstore'] = makeTest('windowsstore', {
+	platform: 'windows',
+	Ti: {
+		Platform: {
+			name: 'windows',
+			osname: 'windowsstore'
+		}
+	}
+});
+tests['simplifies windows Ti.Platform.osname checks when windowsphone'] = makeTest('windows sniff - phone', {
+	platform: 'windows',
+	Ti: {
+		Platform: {
+			name: 'windows',
+			osname: 'windowsphone'
+		}
+	}
+});
+tests['simplifies windows Ti.Platform.osname checks when windowsstore'] = makeTest('windows sniff - store', {
+	platform: 'windows',
+	Ti: {
+		Platform: {
+			name: 'windows',
+			osname: 'windowsstore'
 		}
 	}
 });
