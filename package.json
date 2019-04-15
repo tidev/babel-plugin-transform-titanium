@@ -11,7 +11,7 @@
 		"@babel/core": "^7.2.2",
 		"@seadub/danger-plugin-dependencies": "^0.1.0",
 		"@seadub/danger-plugin-eslint": "^1.0.0",
-		"@seadub/danger-plugin-junit": "0.1.0",
+		"@seadub/danger-plugin-junit": "0.1.1",
 		"babel-plugin-tester": "^6.0.0",
 		"danger": "^7.0.2",
 		"eslint": "^5.11.1",
