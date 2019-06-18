@@ -117,6 +117,64 @@ tests['replaces Titanium.* equivalents'] = makeTest('titanium namespace', {
 	}
 });
 
+tests['Ti.buildHash'] = makeTest('ti.buildHash', {
+	Ti: {
+		buildHash: '3726240fa2'
+	}
+});
+
+tests['Ti.App.copyright'] = makeTest('ti.app.copyright', {
+	Ti: {
+		App: {
+			copyright: '2019-present by Axway, Inc.'
+		}
+	}
+});
+
+tests['Ti.App.description'] = makeTest('ti.app.description', {
+	Ti: {
+		App: {
+			description: 'My Awesome app'
+		}
+	}
+});
+
+tests['Ti.App.id'] = makeTest('ti.app.id', {
+	Ti: {
+		App: {
+			id: 'com.axway.example.app.id'
+		}
+	}
+});
+
+tests['Ti.App.name'] = makeTest('ti.app.name', {
+	Ti: {
+		App: {
+			name: 'my-classic-app'
+		}
+	}
+});
+
+tests['Ti.App.publisher'] = makeTest('ti.app.publisher', {
+	Ti: {
+		App: {
+			publisher: 'Axway, Inc.'
+		}
+	}
+});
+
+tests['Ti.App.url'] = makeTest('ti.app.url', {
+	Ti: {
+		App: {
+			url: 'https://www.appcelerator.com'
+		}
+	}
+});
+
+// TODO: Make sure it does not try to override non-static values if we accidentally pass them in?
+// Maybe we need a "whitelist" of Ti.* properties we'll handle?
+// What about if there's a method/getter that matches?
+
 pluginTester({
 	babel,
 	plugin,

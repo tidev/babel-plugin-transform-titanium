@@ -2,12 +2,12 @@
 
 const CONST = require('./constants');
 
-// FIXME: Have our builder pass in some options to specify various values thar are static to a build, but not constant across all builds:
+// FIXME: Have our builder pass in some options to specify various values that are static to a build, but not constant across all builds:
 // i.e.
 // deploy type - Ti.App.deployType (from build config)
 // SDK version - Ti.version (from sdk package.json)
-// build date - Ti.buildDate (from sdk package.json)
-// build hash - Ti.buildHash (from sdk package.json)
+// build date - Ti.buildDate (from sdk package.json) FIXME: this is not actually in there!
+// build hash - Ti.buildHash (from sdk manifest.json)
 // application id - Ti.App.id (from tiapp.xml)
 // application name - Ti.App.name (from tiapp.xml)
 // publisher - Ti.App.publisher (from tiapp.xml)
