@@ -159,7 +159,7 @@ module.exports = function (_ref) {
 			},
 			Identifier: function (path) {
 				// replace straight up variable identifiers with the hard-coded boolean value we defined above
-				if (this.defines.hasOwnProperty(path.node.name)
+				if (Object.prototype.hasOwnProperty.call(this.defines, path.node.name)
 					&& (path.parent.type !== 'VariableDeclarator' || path.node.name !== path.parent.id.name)) {
 					path.replaceWith(types.booleanLiteral(this.defines[path.node.name]));
 				}
