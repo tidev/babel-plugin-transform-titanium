@@ -21,7 +21,7 @@
 		"lint-staged": "^9.2.4",
 		"mocha": "^6.2.0",
 		"mocha-jenkins-reporter": "^0.4.2",
-		"nyc": "^14.1.1"
+		"nyc": "^15.0.0"
 	},
 	"scripts": {
 		"lint": "eslint .",
