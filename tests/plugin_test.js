@@ -1,5 +1,5 @@
 const babel = require('@babel/core');
-const pluginTester = require('babel-plugin-tester');
+const pluginTester = require('babel-plugin-tester').default;
 const plugin = require('../src/index');
 
 const makeTest = (name, pluginOptions) => {
