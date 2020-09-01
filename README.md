@@ -1,7 +1,7 @@
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/appcelerator/babel-plugin-transform-titanium.svg)](https://greenkeeper.io/)
+# babel-plugin-transform-titanium [![Build Status](https://jenkins.appcelerator.org/buildStatus/icon?job=titanium-sdk%2Fbabel-plugin-transform-titanium%2Fmaster)](https://jenkins.appcelerator.org/job/titanium-sdk/job/babel-plugin-transform-titanium/job/master/) [![babel-plugin-transform-titanium](https://img.shields.io/npm/v/babel-plugin-transform-titanium.png)](https://www.npmjs.com/package/babel-plugin-transform-titanium)
 
-This is a babel plugin intended to optimize Titanium SDK applications by inlining various static values. Once inlined, Other babel plugins may performa additional optimizations to help strip away "dead code".
+This is a babel plugin intended to optimize Titanium SDK applications by inlining various static values. Once inlined, Other babel plugins may perform additional optimizations to help strip away "dead code".
 
 Information about the current Titanium application build should be passed to the plugin's options object.
 
@@ -9,25 +9,27 @@ Information about the current Titanium application build should be passed to the
 
 ```javascript
 const options = {
-	deploytype: 'development', // one of 'development', 'test', 'production'
-	platform: undefined, // one of 'android', 'ios', 'windows'
-	target: undefined, // one of 'dist-playstore', 'dist-appstore', 'dist-adhoc', null/undefined
-	Ti: {
-		version: undefined, // string, SDK version
-		App: {
-			id: undefined, // string, application id from tiapp.xml
-			name: undefined, // string, application name from tiapp.xml
-			version: undefined, // string, application version from tiapp.xml
-		}
-		Platform: {
-			osname: undefined, // one of 'android', 'ipad', 'iphone', 'windowsphone', 'windowsstore'
-		}
-	}
+  deploytype: 'development', // one of 'development', 'test', 'production'
+  platform: undefined, // one of 'android', 'ios', 'windows'
+  target: undefined, // one of 'dist-playstore', 'dist-appstore', 'dist-adhoc', null/undefined
+  Ti: {
+    version: undefined, // string, SDK version
+    App: {
+      id: undefined, // string, application id from tiapp.xml
+      name: undefined, // string, application name from tiapp.xml
+      version: undefined, // string, application version from tiapp.xml
+    },
+    Platform: {
+      osname: undefined, // one of 'android', 'ipad', 'iphone', 'windowsphone', 'windowsstore'
+    }
+  }
 };
 ```
 
 ## Special "defines"
+
 It can:
+
 - replace special `OS_*` references with boolean values
   - `OS_IOS` - `true` iff `pluginOptions.platform === 'ios'`
   - `OS_ANDROID` - `true` iff `pluginOptions.platform === 'android'`
@@ -42,14 +44,15 @@ It can:
   - `DIST_STORE` - `true` iff `pluginOptions.target === 'dist-appstore' || pluginOptions.target === 'dist-playstore'`
 
 ## OS "sniffing" via Ti.Platform.osname
+
 - replace typical "sniff" expressions for iOS/Windows using `Ti.Platform.osname` with static boolean values
 i.e.
+
 ```javascript
 if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
-	Ti.API.info('on ios!');
+  Ti.API.info('on ios!');
 }
 if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
-	Ti.API.info('on windows!');
+  Ti.API.info('on windows!');
 }
 ```
-
