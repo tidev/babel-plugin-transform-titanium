@@ -9,7 +9,7 @@ exports.DEPLOY_TYPES = [
 ];
 exports.DIST_TYPES = [
 	{ key: 'DIST_ADHOC', value: [ 'dist-adhoc' ] },
-	{ key: 'DIST_STORE', value: [ 'dist-appstore', 'dist-playstore' ] }
+	{ key: 'DIST_STORE', value: [ 'dist-appstore', 'dist-playstore', 'dist-macappstore' ] },
 ];
 
 exports.PLATFORMS = [ 'android', 'ios', 'windows' ];

@@ -114,6 +114,7 @@ module.exports = function (_ref) {
 			// here we keep two views of the static values:
 
 			// - an object holding the fully prefixed property names with their values
+			// FIXME: Don't include properties whose value is undefined/null? Or do we treat that as an explicit value and rely on upstream to filter?
 			this.flattened = flatten({ Ti });
 			// duplicate Ti.* to Titanium.*
 			Object.keys(this.flattened).forEach(key => {
