@@ -9,7 +9,7 @@
 	"main": "src/index.js",
 	"devDependencies": {
 		"@babel/core": "^7.5.5",
-		"@commitlint/cli": "^13.1.0",
+		"@commitlint/cli": "^17.4.4",
 		"@commitlint/config-conventional": "^13.1.0",
 		"@seadub/danger-plugin-dependencies": "^1.0.0",
 		"@seadub/danger-plugin-eslint": "^2.0.0",
